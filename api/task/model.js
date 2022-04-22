@@ -17,4 +17,18 @@ async function getTasks() {
   }));
 }
 
-module.exports = { getTasks };
+async function addTask(task) {
+  return db("tasks")
+    .insert(task)
+    .then(([task_id]) => {
+      return db("tasks")
+        .where("task_id", task_id)
+        .first()
+        .then((newTask) => ({
+          ...newTask,
+          task_completed: !!newTask.project_completed,
+        }));
+    });
+}
+
+module.exports = { getTasks, addTask };
