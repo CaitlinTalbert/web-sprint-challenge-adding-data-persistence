@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Project = require("./model");
 
+//returns all projects
 router.get("/", (req, res, next) => {
   Project.getAll()
     .then((projects) => {
@@ -9,6 +10,7 @@ router.get("/", (req, res, next) => {
     .catch(next);
 });
 
+//posts a new project
 router.post("/", (req, res, next) => {
   Project.addProject(req.body)
     .then((newProject) => {

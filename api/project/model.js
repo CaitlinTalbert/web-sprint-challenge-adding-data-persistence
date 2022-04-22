@@ -8,7 +8,19 @@ async function getAll() {
   }));
 }
 
-async function addProject() {}
+async function addProject(project) {
+  return db("projects")
+    .insert(project)
+    .then(([project_id]) => {
+      return db("projects")
+        .where("project_id", project_id)
+        .first()
+        .then((newProject) => ({
+          ...newProject,
+          project_completed: !!newProject.project_completed,
+        }));
+    });
+}
 
 module.exports = {
   getAll,
